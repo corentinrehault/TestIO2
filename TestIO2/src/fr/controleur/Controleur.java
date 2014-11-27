@@ -21,7 +21,7 @@ import fr.service.Converter;
  */
 public class Controleur {
 
-	// map globale contient en cl� les lettres et en value la liste des mots commençant par cette lettre.
+	// map globale contient en clé les lettres et en value la liste des mots commençant par cette lettre.
 	public static Map<String, ArrayList<Mot>> listeMotParLettre = new HashMap<String, ArrayList<Mot>>();
 	// map contenant en K un entier et en V la liste des mots.
 	public static Map<Integer, ArrayList<Mot>> ListeNombreDeLettres = new HashMap<Integer, ArrayList<Mot>>();
@@ -34,7 +34,7 @@ public class Controleur {
 	// la ligne etudiée
 	String line;
 	
-	// on stocke l'unicode de la premiere lettre
+	// on stocke l'unicode de la première lettre
 
 	static String lettreTemoinUnicode;
 	static String lettreTemoinUtf8;
@@ -76,24 +76,24 @@ public class Controleur {
 				// cas particulier de la première lettre
 				if (idMot == 0) {
 
-					// on d�finit la lettre t�moin
+					// on définit la lettre témoin
 					lettreTemoinUnicode = lettreCouranteUnicode;
 					lettreTemoinUtf8 = lettreCouranteUtf8;
-					// on cr�e une cl� de map avec une liste vide
+					// on créé une clé de map avec une liste vide
 					listeMotParLettre.put(lettreCouranteUtf8, new ArrayList<Mot>());
 
 				}
 
-				// on incr�mente l'id
+				// on incrémente l'id
 				++idMot;
 
-				// On d�tecte si la première lettre du mot est diff�rente de la premi�re lettre du mot t�moin.
+				// On détecte si la première lettre du mot est différente de la première lettre du mot témoin.
 				// si la listeDesLettres ne contient pas cette lettre on l'ajoute.
 
 
 				if (!lettreTemoinUnicode.equals(lettreCouranteUnicode) && !listeMotParLettre.containsKey(lettreCouranteUtf8)) {
 
-					// on cr� �galement une ligne avec une liste vide dans la hasmap.
+					// on créé également une ligne avec une liste vide dans la hasmap.
 					listeMotParLettre.put(lettreCouranteUtf8, new ArrayList<Mot>());
 
 				}	
@@ -169,7 +169,7 @@ public class Controleur {
 
 
 
-	//on parcours les cl�s de la map
+	//on parcours les clés de la map
 
 	//		while (listeMotParLettre.keySet() != null) {
 	//			
@@ -178,7 +178,7 @@ public class Controleur {
 	//		}
 
 
-	// r�sultats :
+	// résultats :
 
 
 
