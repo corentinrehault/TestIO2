@@ -153,7 +153,7 @@ public class Controleur {
 		while (iterator.hasNext()) {
 			
 			Map.Entry<String,ArrayList<Mot>> entry = (Map.Entry<String,ArrayList<Mot>>) iterator.next();
-			String key = (String) entry.getKey();
+			//String key = (String) entry.getKey();
 			ArrayList<Mot> value = (ArrayList<Mot>) entry.getValue();
 
 			//System.out.println(key + " = " + value);
