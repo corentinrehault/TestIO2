@@ -8,9 +8,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
-import javax.swing.JSpinner.ListEditor;
 
 import fr.bean.Mot;
 import fr.service.Converter;
@@ -22,12 +21,17 @@ import fr.service.Converter;
  */
 public class Controleur {
 
-	// map globale contient en clé les lettres et en value la liste des mots commençant par cette lettre.
-	static Map<String, ArrayList<Mot>> listeMotParLettre = new HashMap<String, ArrayList<Mot>>();
+	// map globale contient en cl� les lettres et en value la liste des mots commençant par cette lettre.
+	public static Map<String, ArrayList<Mot>> listeMotParLettre = new HashMap<String, ArrayList<Mot>>();
 	// map contenant en K un entier et en V la liste des mots.
-	static Map<Integer, ArrayList<Mot>> ListeNombreDeLettres = new HashMap<Integer, ArrayList<Mot>>();
+	public static Map<Integer, ArrayList<Mot>> ListeNombreDeLettres = new HashMap<Integer, ArrayList<Mot>>();
+	// arraylist Ver
+	public static List<String> listeMotsVer = new ArrayList<String>();
+	// arraylist Complète
+	public static List<String> listeComplete = new ArrayList<String>();
+	
 
-	// la ligne etudée
+	// la ligne etudiée
 	String line;
 	
 	// on stocke l'unicode de la premiere lettre
@@ -35,12 +39,13 @@ public class Controleur {
 	static String lettreTemoinUnicode;
 	static String lettreTemoinUtf8;
 	int nbreDeLettres;
+	public static String titre = new String();
 
 
 	public void readFile() throws MalformedURLException, IOException, InterruptedException {
 
 		// on lit le fichier externe
-		BufferedReader r = new BufferedReader(new InputStreamReader(new URL("http://www.altenide.com/lmg.html").openStream()));
+		BufferedReader r = new BufferedReader(new InputStreamReader(new URL("http://www.altenide.com/lmg.html").openStream(), "ISO-8859-1"));
 
 
 		// on déclare un id pour nos mots ( à toutes fin utiles... )
@@ -52,6 +57,13 @@ public class Controleur {
 		// on parcours lebufferReader line par ligne et on traite seulement si la ligne ne contient pas de caractère "<,>"
 		long first = System.currentTimeMillis();
 		while ((line = r.readLine()) != null) {
+			
+			if (line.contains("<title>")) {
+				titre = line.toString();
+				titre = titre.replace("<title>", "");
+				titre = titre.replace("</title>", "");
+				titre = titre.replace(" ", "_");
+			}
 
 			if (!line.contains("<")) {
 
@@ -64,24 +76,24 @@ public class Controleur {
 				// cas particulier de la première lettre
 				if (idMot == 0) {
 
-					// on définit la lettre témoin
+					// on d�finit la lettre t�moin
 					lettreTemoinUnicode = lettreCouranteUnicode;
 					lettreTemoinUtf8 = lettreCouranteUtf8;
-					// on crée une clé de map avec une liste vide
+					// on cr�e une cl� de map avec une liste vide
 					listeMotParLettre.put(lettreCouranteUtf8, new ArrayList<Mot>());
 
 				}
 
-				// on incrémente l'id
+				// on incr�mente l'id
 				++idMot;
 
-				// On détecte si la première lettre du mot est différente de la première lettre du mot témoin.
+				// On d�tecte si la première lettre du mot est diff�rente de la premi�re lettre du mot t�moin.
 				// si la listeDesLettres ne contient pas cette lettre on l'ajoute.
 
 
 				if (!lettreTemoinUnicode.equals(lettreCouranteUnicode) && !listeMotParLettre.containsKey(lettreCouranteUtf8)) {
 
-					// on créé également une ligne avec une liste vide dans la hasmap.
+					// on cr� �galement une ligne avec une liste vide dans la hasmap.
 					listeMotParLettre.put(lettreCouranteUtf8, new ArrayList<Mot>());
 
 				}	
@@ -96,14 +108,23 @@ public class Controleur {
 				mot.setTerme(line);
 				mot.setEndByver(line.endsWith("ver"));
 				
+				
 				if (!ListeNombreDeLettres.containsKey(mot.getSize())) {
 					ListeNombreDeLettres.put(mot.getSize(), new ArrayList<Mot>());
+				}
+				
+				if (mot.isEndByver()) {
+					listeMotsVer.add(mot.getTerme());
 				}
 
 				// on ajoute la lettre courante sur la bonne clé de la map
 
 				listeMotParLettre.get(lettreCouranteUtf8).add(mot);
 				ListeNombreDeLettres.get(mot.getSize()).add(mot);
+				
+				//On ajoute le mot à la liste complète
+				
+				listeComplete.add(mot.getTerme());
 
 				// on réaffecte la lettre témoin
 
@@ -122,7 +143,7 @@ public class Controleur {
 		Long time = last - first ;
 		System.err.println("Time : " + time);
 
-		System.out.println("Taille de l'alphabet récupéré : " + listeMotParLettre.size());
+		System.out.println("Taille de l'alphabet : " + listeMotParLettre.size());
 		System.out.println(ListeNombreDeLettres.size());
 
 		int totalsize = 0;
@@ -148,7 +169,7 @@ public class Controleur {
 
 
 
-	//on parcours les clés de la map
+	//on parcours les cl�s de la map
 
 	//		while (listeMotParLettre.keySet() != null) {
 	//			
@@ -157,7 +178,7 @@ public class Controleur {
 	//		}
 
 
-	// résultats :
+	// r�sultats :
 
 
 

@@ -1,5 +1,6 @@
 package fr;
 import fr.controleur.Controleur;
+import fr.service.EcrireFichiers;
 
 public class Lanceur {
 	public static void main(String[] args) throws Exception {
@@ -8,8 +9,7 @@ public class Lanceur {
 		
 		controleur.readFile();
 		
-	
-		
+		EcrireFichiers.EcritureFichiers();
 		
 	}
 	
